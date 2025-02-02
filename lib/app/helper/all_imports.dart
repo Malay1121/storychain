@@ -19,6 +19,7 @@ export 'package:crypto/crypto.dart';
 export 'package:flutter_svg/flutter_svg.dart';
 export 'package:flutter_tts/flutter_tts.dart';
 export 'package:cached_network_image/cached_network_image.dart';
+export 'package:image_picker/image_picker.dart';
 
 export 'app_strings.dart';
 export 'utils.dart';

@@ -8,7 +8,8 @@ void main() async {
           apiKey: "AIzaSyAMNnXtWUQf-3dtUBn-b1kmuiP5tTZdbzg",
           appId: "1:269721728762:android:abdf6a360dcd6d5a207b43",
           messagingSenderId: "269721728762",
-          projectId: "storychain-app"));
+          projectId: "storychain-app",
+          storageBucket: "storychain-app.firebasestorage.app"));
   initializeSize(428, 926);
   configureEasyLoading();
 
@@ -30,6 +31,7 @@ void main() async {
   runApp(
     GetMaterialApp(
       title: "Application",
+      builder: EasyLoading.init(),
       initialRoute: AppPages.INITIAL,
       getPages: AppPages.routes,
     ),

@@ -24,10 +24,10 @@ class CommonImage extends StatefulWidget {
 class _CommonImageState extends State<CommonImage> {
   @override
   Widget build(BuildContext context) {
-    return widget.type == "network"
-        ? ClipRRect(
-            borderRadius: widget.borderRadius ?? BorderRadius.zero,
-            child: CachedNetworkImage(
+    return ClipRRect(
+      borderRadius: widget.borderRadius ?? BorderRadius.zero,
+      child: widget.type == "network"
+          ? CachedNetworkImage(
               imageUrl: widget.imageUrl,
               width: widget.width,
               height: widget.height,
@@ -40,30 +40,30 @@ class _CommonImageState extends State<CommonImage> {
                 Icons.error_outline,
                 color: ColorStyle.alertsStatusError,
               ),
-            ),
-          )
-        : widget.type == "asset"
-            ? Image.asset(
-                widget.imageUrl,
-                width: widget.width,
-                height: widget.height,
-                fit: widget.fit,
-                errorBuilder: (context, error, stackTrace) => Icon(
-                  Icons.error_outline,
-                  color: ColorStyle.greyscale900,
-                ),
-              )
-            : widget.type == "file"
-                ? Image.file(
-                    File(widget.imageUrl),
-                    width: widget.width,
-                    height: widget.height,
-                    fit: widget.fit,
-                    errorBuilder: (context, error, stackTrace) => Icon(
-                      Icons.error_outline,
-                      color: ColorStyle.alertsStatusError,
-                    ),
-                  )
-                : SizedBox();
+            )
+          : widget.type == "asset"
+              ? Image.asset(
+                  widget.imageUrl,
+                  width: widget.width,
+                  height: widget.height,
+                  fit: widget.fit,
+                  errorBuilder: (context, error, stackTrace) => Icon(
+                    Icons.error_outline,
+                    color: ColorStyle.greyscale900,
+                  ),
+                )
+              : widget.type == "file"
+                  ? Image.file(
+                      File(widget.imageUrl),
+                      width: widget.width,
+                      height: widget.height,
+                      fit: widget.fit,
+                      errorBuilder: (context, error, stackTrace) => Icon(
+                        Icons.error_outline,
+                        color: ColorStyle.alertsStatusError,
+                      ),
+                    )
+                  : SizedBox(),
+    );
   }
 }

@@ -25,6 +25,7 @@ class AppStrings {
   static String skip = "Skip";
 
   static String createYourAccount = "Create your \nAccount";
+  static String welcomeBack = "Welcome Back!";
   static String completeYourProfile = "Complete Your Profile";
   static String email = "Email";
   static String fullName = "Full Name";
@@ -37,8 +38,16 @@ class AppStrings {
   static String rememberMe = "Remember me";
   static String forgotPassword = "Forgot password?";
   static String orContinueWith = "Or continue with";
+  static String selectImageSource = "Select Image Source";
+  static String camera = "Camera";
+  static String gallery = "Gallery";
   static String signUp = "Sign Up";
   static String signIn = "Sign In";
   static String dontHaveAnAccount = "Don't have an account?";
   static String alreadyHaveAnAccount = "Already have an account?";
+
+  static String home = "Home";
+  static String profile = "Profile";
+  static String add = "Add";
+  static String contribute = "Contribute";
 }

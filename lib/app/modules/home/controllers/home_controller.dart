@@ -1,8 +1,7 @@
 import 'package:get/get.dart';
+import 'package:storychain/app/helper/all_imports.dart';
 
-class HomeController extends GetxController {
-  //TODO: Implement HomeController
-
+class HomeController extends CommonController {
   final count = 0.obs;
   @override
   void onInit() {

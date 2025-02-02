@@ -6,16 +6,16 @@ import 'package:intl/intl.dart';
 GetStorage getStorage = GetStorage();
 
 List<Map> tabs = [
-  // {
-  //   "title": AppStrings.mealPlans,
-  //   "icon": Icons.food_bank_outlined,
-  //   "page": Routes.HOME,
-  // },
-  // {
-  //   "title": AppStrings.storage,
-  //   "icon": Icons.local_grocery_store_outlined,
-  //   "page": Routes.INGREDIENTS,
-  // },
+  {
+    "title": AppStrings.home,
+    "icon": Icons.home_outlined,
+    "page": Routes.HOME,
+  },
+  {
+    "title": AppStrings.profile,
+    "icon": Icons.person_outline,
+    "page": Routes.HOME,
+  },
 ];
 
 Map apiKeys = {

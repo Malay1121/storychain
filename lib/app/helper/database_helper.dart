@@ -31,12 +31,25 @@ class DatabaseHelper {
       UserCredential user = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
               email: data["email"], password: generateMd5(data["password"]));
-      data.addEntries({"uid": user.user!.uid}.entries);
-      await FirebaseFirestore.instance
-          .collection("users")
-          .doc(data["uid"])
-          .set(data);
-      writeUserDetails(data);
+      if (user.user != null) {
+        Reference storageRef = FirebaseStorage.instance.ref().child(
+            "profile_pictures/${user.user!.uid}.${data["profile_picture"].toString().split(".").last}");
+        await storageRef.putFile(
+          File(
+            data["profile_picture"],
+          ),
+        );
+        String imagePath = await storageRef.getDownloadURL();
+        data["profile_picture"] = imagePath;
+        FirebaseAuth.instance.currentUser!
+            .updateProfile(displayName: data["name"], photoURL: imagePath);
+        data.addEntries({"uid": user.user!.uid}.entries);
+        await FirebaseFirestore.instance
+            .collection("users")
+            .doc(data["uid"])
+            .set(data);
+        writeUserDetails(data);
+      }
       return user.user;
     } on FirebaseException catch (error) {
       showFirebaseError(error.message);

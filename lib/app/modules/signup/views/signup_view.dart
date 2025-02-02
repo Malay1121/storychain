@@ -123,13 +123,19 @@ class SignupView extends GetView<SignupController> {
                                 SizedBox(
                                   width: 8.w(context),
                                 ),
-                                AppText(
-                                  text: AppStrings.signIn,
-                                  style: Styles.bodyMediumRegular(
-                                    color: ColorStyle.primary500,
+                                GestureDetector(
+                                  onTap: () => Get.toNamed(Routes.SIGNIN),
+                                  child: AppText(
+                                    text: AppStrings.signIn,
+                                    style: Styles.bodyMediumRegular(
+                                      color: ColorStyle.primary500,
+                                    ),
                                   ),
                                 ),
                               ],
+                            ),
+                            SizedBox(
+                              height: 10.h(context),
                             ),
                           ],
                         )),
@@ -150,9 +156,12 @@ class SignupView extends GetView<SignupController> {
                                 ),
                                 Row(
                                   children: [
-                                    Icon(
-                                      Icons.arrow_back_outlined,
-                                      color: ColorStyle.greyscale900,
+                                    GestureDetector(
+                                      onTap: () => controller.previous(),
+                                      child: Icon(
+                                        Icons.arrow_back_outlined,
+                                        color: ColorStyle.greyscale900,
+                                      ),
                                     ),
                                     SizedBox(
                                       width: 16.w(context),
@@ -169,12 +178,21 @@ class SignupView extends GetView<SignupController> {
                                 SizedBox(
                                   height: 33.5.h(context),
                                 ),
-                                CommonImage(
-                                  imageUrl: AppImages.profilePicture,
-                                  type: "asset",
-                                  fit: BoxFit.cover,
-                                  width: 140.h(context),
-                                  height: 140.h(context),
+                                GestureDetector(
+                                  onTap: () =>
+                                      controller.selectProfilePicture(),
+                                  child: CommonImage(
+                                    imageUrl: controller.profilePicture != null
+                                        ? controller.profilePicture!.path
+                                        : AppImages.profilePicture,
+                                    type: controller.profilePicture != null
+                                        ? "file"
+                                        : "asset",
+                                    fit: BoxFit.cover,
+                                    borderRadius: BorderRadius.circular(100),
+                                    width: 140.h(context),
+                                    height: 140.h(context),
+                                  ),
                                 ),
                                 SizedBox(
                                   height: 24.h(context),
