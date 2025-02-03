@@ -50,4 +50,11 @@ class AppStrings {
   static String profile = "Profile";
   static String add = "Add";
   static String contribute = "Contribute";
+  static String contributors = "Contributors";
+  static String liveLimit = "Live Limit";
+  static String liveNow = "Live Now";
+  static String likes = "Likes";
+  static String follow = "Follow";
+  static String following = "Following";
+  static String like = "Like";
 }

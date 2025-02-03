@@ -121,11 +121,11 @@ class ColorStyle {
   static final primary300 = const Color.fromARGB(255, 114, 164, 247);
   static final primary200 = const Color.fromARGB(255, 162, 195, 250);
   static final primary100 = const Color.fromARGB(255, 211, 226, 252);
-  static final secondary500 = const Color.fromARGB(255, 255, 230, 8);
-  static final secondary400 = const Color.fromARGB(255, 255, 235, 59);
-  static final secondary300 = const Color.fromARGB(255, 255, 240, 110);
-  static final secondary200 = const Color.fromARGB(255, 255, 245, 161);
-  static final secondary100 = const Color.fromARGB(255, 255, 251, 212);
+  static final secondary500 = const Color(0xFFf19c12);
+  static final secondary400 = const Color(0xFFF4B042);
+  static final secondary300 = const Color(0xFFF7C472);
+  static final secondary200 = const Color(0xFFFAD8A2);
+  static final secondary100 = const Color(0xFFFCECD3);
   static final alertsStatusSuccess = const Color.fromARGB(255, 74, 222, 128);
   static final alertsStatusInfo = const Color.fromARGB(255, 36, 107, 253);
   static final alertsStatusWarning = const Color.fromARGB(255, 250, 204, 21);

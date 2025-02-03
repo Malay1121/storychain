@@ -14,8 +14,8 @@ class _CommonBottomBarState extends State<CommonBottomBar> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 220.w(context),
-      height: 35.h(context),
+      width: 428.w(context),
+      height: 48.h(context),
       child: Row(
         children: [
           for (Map tab in tabs)
@@ -23,7 +23,7 @@ class _CommonBottomBarState extends State<CommonBottomBar> {
               child: GestureDetector(
                 onTap: () => Get.toNamed(tab["page"]),
                 child: Container(
-                  height: 35.h(context),
+                  height: 48.h(context),
                   decoration: BoxDecoration(
                     color: ColorStyle.othersWhite,
                   ),
@@ -35,19 +35,15 @@ class _CommonBottomBarState extends State<CommonBottomBar> {
                         color: tab["title"] == widget.selectedTab
                             ? ColorStyle.primary500
                             : ColorStyle.greyscale500,
-                        size: 12.t(context),
+                        size: 24.t(context),
                       ),
                       if (tab["title"] == widget.selectedTab)
                         AppText(
                           text: tab["title"],
                           height: 12.h(context),
                           centered: true,
-                          style: TextStyle(
-                            color: ColorStyle.primary500,
-                            fontFamily: SfProDisplay,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 8.t(context),
-                          ),
+                          style: Styles.bodyXsmallBold(
+                              color: ColorStyle.primary500),
                         ),
                     ],
                   ),
