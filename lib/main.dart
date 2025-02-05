@@ -1,8 +1,13 @@
 import 'package:storychain/app/helper/all_imports.dart';
+import 'package:appwrite/appwrite.dart';
 
+Client client = Client();
 void main() async {
   await WidgetsFlutterBinding.ensureInitialized();
   await GetStorage.init();
+  client = Client();
+  client.setProject('storychain');
+
   await Firebase.initializeApp(
       options: FirebaseOptions(
           apiKey: "AIzaSyAMNnXtWUQf-3dtUBn-b1kmuiP5tTZdbzg",

@@ -14,7 +14,7 @@ class AppText extends StatefulWidget {
     this.group,
     this.textAlign,
     this.textDirection,
-    this.locale,
+    // this.locale,
     this.softWrap,
     this.wrapWords = true,
     this.overflow,
@@ -38,7 +38,7 @@ class AppText extends StatefulWidget {
   AutoSizeGroup? group;
   TextAlign? textAlign;
   TextDirection? textDirection;
-  Locale? locale;
+  // Locale? locale;
   bool? softWrap;
   bool wrapWords = true;
   TextOverflow? overflow;
@@ -73,7 +73,7 @@ class _AppTextState extends State<AppText> {
                   group: widget.group,
                   textAlign: widget.textAlign,
                   textDirection: widget.textDirection,
-                  locale: widget.locale,
+                  // locale: widget.locale,
                   softWrap: widget.softWrap,
                   wrapWords: widget.wrapWords,
                   overflow: widget.overflow,
@@ -99,7 +99,7 @@ class _AppTextState extends State<AppText> {
                 group: widget.group,
                 textAlign: widget.textAlign,
                 textDirection: widget.textDirection,
-                locale: widget.locale,
+                // locale: widget.locale,
                 softWrap: widget.softWrap,
                 wrapWords: widget.wrapWords,
                 overflow: widget.overflow,
@@ -182,7 +182,7 @@ class _AppRichTextState extends State<AppRichText> {
                 group: widget.group,
                 textAlign: widget.textAlign,
                 textDirection: widget.textDirection,
-                locale: widget.locale,
+                // locale: widget.locale,
                 softWrap: widget.softWrap,
                 wrapWords: widget.wrapWords,
                 overflow: widget.overflow,
@@ -203,7 +203,7 @@ class _AppRichTextState extends State<AppRichText> {
               group: widget.group,
               textAlign: widget.textAlign,
               textDirection: widget.textDirection,
-              locale: widget.locale,
+              // locale: widget.locale,
               softWrap: widget.softWrap,
               wrapWords: widget.wrapWords,
               overflow: widget.overflow,

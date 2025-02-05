@@ -1,5 +1,6 @@
+import 'package:appwrite/enums.dart';
+// import 'package:appwrite/models.dart';
 import 'package:storychain/app/helper/all_imports.dart';
-import 'package:storychain/app/helper/utils.dart';
 
 class DatabaseHelper {
   static Future getApis() async {
@@ -9,6 +10,18 @@ class DatabaseHelper {
       apiKeys = documentSnapshot.data() != null
           ? documentSnapshot.data() as Map
           : apiKeys;
+    } on FirebaseException catch (error) {
+      showFirebaseError(error.message);
+    }
+  }
+
+  static Future updateApiIndex({required String apiName}) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection("apis")
+          .doc("apis")
+          .update(apiKeys[apiName]);
+      return apiKeys[apiName];
     } on FirebaseException catch (error) {
       showFirebaseError(error.message);
     }
@@ -28,6 +41,15 @@ class DatabaseHelper {
 
   static Future createUser({required Map<String, dynamic> data}) async {
     try {
+      // Account account = Account(client);
+      // Functions functions = Functions(client);
+      // User user = await account.create(
+      //   userId: data["username"],
+      //   email: data["email"],
+      //   password: generateMd5(data["password"]),
+      //   name: data["name"],
+      // );
+      // Future user = functions.createExecution(functionId: "create_user", method: ExecutionMethod.pOST, body: );
       UserCredential user = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
               email: data["email"], password: generateMd5(data["password"]));
@@ -98,28 +120,48 @@ class DatabaseHelper {
     }
   }
 
-  static Future updateIngredient(
-      {required User user, required Map<String, dynamic> data}) async {
+  static Future<List?> getStories({DocumentSnapshot? lastDoc}) async {
     try {
-      await FirebaseFirestore.instance
-          .collection("users")
-          .doc(user.uid)
-          .update(data);
-      return data;
-    } on FirebaseException catch (error) {
-      showFirebaseError(error.message);
-    }
-  }
+      dynamic userSnapshot = FirebaseFirestore.instance.collection("story");
+      if (lastDoc != null) {
+        userSnapshot = userSnapshot.startAfterDocument(lastDoc);
+      }
+      userSnapshot = await userSnapshot.limit(10).get();
+      List stories = [];
+      (userSnapshot as QuerySnapshot).docs.forEach(
+        (element) async {
+          var data = element.data() as Map? ?? {};
+          DocumentSnapshot userDetailSnapshot = await FirebaseFirestore.instance
+              .collection("users")
+              .doc(data["uid"])
+              .get();
+          AggregateQuerySnapshot commentCount = await FirebaseFirestore.instance
+              .collection("story")
+              .doc(element.id)
+              .collection("comments")
+              .count()
+              .get();
+          AggregateQuerySnapshot likesCount = await FirebaseFirestore.instance
+              .collection("story")
+              .doc(element.id)
+              .collection("likes")
+              .count()
+              .get();
 
-  static Future updateApiIndex({required String apiName}) async {
-    try {
-      await FirebaseFirestore.instance
-          .collection("apis")
-          .doc("apis")
-          .update(apiKeys[apiName]);
-      return apiKeys[apiName];
+          data.addEntries({
+            "doc": element,
+            "creator_details": userDetailSnapshot.data()!,
+            "comment_count": commentCount.count,
+            "likes_count": likesCount.count,
+          }.entries);
+          stories.add(element.data());
+        },
+      );
+
+      return stories;
     } on FirebaseException catch (error) {
       showFirebaseError(error.message);
     }
+    return null;
   }
 }

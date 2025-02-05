@@ -1,7 +1,5 @@
-import 'package:speech_to_text/speech_to_text.dart';
 import 'package:http/http.dart' as http;
 import 'all_imports.dart';
-import 'package:intl/intl.dart';
 
 GetStorage getStorage = GetStorage();
 
@@ -65,6 +63,19 @@ bool validatePhone(String phone) {
     return false;
   }
   return true;
+}
+
+dynamic getKey(Map data, List location, dynamic replacement) {
+  dynamic value = data;
+  for (var key in location) {
+    if (value is Map) {
+      print(value.toString() + " is Map");
+      value = value[key];
+    } else {
+      return replacement;
+    }
+  }
+  return value ?? replacement;
 }
 
 bool isEmptyString(String? string) {
