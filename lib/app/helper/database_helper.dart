@@ -108,11 +108,11 @@ class DatabaseHelper {
     }
   }
 
-  static Future getUser({required User user}) async {
+  static Future getUser({required String userId}) async {
     try {
       DocumentSnapshot userSnapshot = await FirebaseFirestore.instance
           .collection("users")
-          .doc(user.uid)
+          .doc(userId)
           .get();
       return userSnapshot.data();
     } on FirebaseException catch (error) {
@@ -128,35 +128,68 @@ class DatabaseHelper {
       }
       userSnapshot = await userSnapshot.limit(10).get();
       List stories = [];
-      (userSnapshot as QuerySnapshot).docs.forEach(
-        (element) async {
-          var data = element.data() as Map? ?? {};
-          DocumentSnapshot userDetailSnapshot = await FirebaseFirestore.instance
-              .collection("users")
-              .doc(data["uid"])
-              .get();
-          AggregateQuerySnapshot commentCount = await FirebaseFirestore.instance
-              .collection("story")
-              .doc(element.id)
-              .collection("comments")
-              .count()
-              .get();
-          AggregateQuerySnapshot likesCount = await FirebaseFirestore.instance
-              .collection("story")
-              .doc(element.id)
-              .collection("likes")
-              .count()
-              .get();
+      for (var element in (userSnapshot as QuerySnapshot).docs) {
+        var data = element.data() as Map? ?? {};
+        DocumentSnapshot userDetailSnapshot = await FirebaseFirestore.instance
+            .collection("users")
+            .doc(data["creator"])
+            .get();
+        AggregateQuerySnapshot commentCount = await FirebaseFirestore.instance
+            .collection("story")
+            .doc(element.id)
+            .collection("comments")
+            .count()
+            .get();
+        AggregateQuerySnapshot likesCount = await FirebaseFirestore.instance
+            .collection("story")
+            .doc(element.id)
+            .collection("likes")
+            .count()
+            .get();
+        AggregateQuerySnapshot liveNowCount = await FirebaseFirestore.instance
+            .collection("story")
+            .doc(element.id)
+            .collection("live_now")
+            .count()
+            .get();
+        AggregateQuerySnapshot contributorsCount = await FirebaseFirestore
+            .instance
+            .collection("story")
+            .doc(element.id)
+            .collection("contributors")
+            .count()
+            .get();
+        QuerySnapshot lastSentence = await FirebaseFirestore.instance
+            .collection("story")
+            .doc(element.id)
+            .collection("sentences")
+            .orderBy("created_at", descending: true)
+            .limit(1)
+            .get();
+        AggregateQuerySnapshot sentenceCount = await FirebaseFirestore.instance
+            .collection("story")
+            .doc(element.id)
+            .collection("sentences")
+            .count()
+            .get();
 
-          data.addEntries({
-            "doc": element,
-            "creator_details": userDetailSnapshot.data()!,
-            "comment_count": commentCount.count,
-            "likes_count": likesCount.count,
-          }.entries);
-          stories.add(element.data());
-        },
-      );
+        print(element.data());
+
+        data.addEntries({
+          "doc": element,
+          "creator_details": userDetailSnapshot.data() ?? {},
+          "comment_count": commentCount.count,
+          "likes_count": likesCount.count,
+          "live_now_count": liveNowCount.count,
+          "contributors_count": contributorsCount.count,
+          "last_sentence": lastSentence.docs.isNotEmpty
+              ? lastSentence.docs.first.data()
+              : null,
+          "sentence_count": sentenceCount.count,
+        }.entries);
+        print(data);
+        stories.add(data);
+      }
 
       return stories;
     } on FirebaseException catch (error) {

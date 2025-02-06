@@ -51,55 +51,80 @@ class HomeView extends GetView<HomeController> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.center,
                                         children: [
-                                          CommonImage(
-                                            imageUrl:
-                                                "https://storage.googleapis.com/linkless-app.firebasestorage.app/users/malay111/profile.png",
-                                            fit: BoxFit.cover,
-                                            height: 30.h(context),
-                                            width: 30.h(context),
-                                            borderRadius:
-                                                BorderRadius.circular(100),
-                                          ),
-                                          SizedBox(
-                                            width: 10.w(context),
-                                          ),
-                                          SizedBox(
-                                            height: 30.h(context),
-                                            child: Center(
-                                              child: AppText(
-                                                text: "Malay Patel",
-                                                style:
-                                                    Styles.bodyMediumSemibold(
-                                                  color:
-                                                      ColorStyle.greyscale500,
+                                          GestureDetector(
+                                            onTap: () => Get.toNamed(
+                                                Routes.USER_PROFILE,
+                                                arguments: {
+                                                  "userId": getKey(
+                                                      story, ["creator"], "")
+                                                }),
+                                            child: Row(
+                                              children: [
+                                                CommonImage(
+                                                  imageUrl: "${getKey(story, [
+                                                        "creator_details",
+                                                        "profile_picture"
+                                                      ], "")}",
+                                                  fit: BoxFit.cover,
+                                                  height: 30.h(context),
+                                                  width: 30.h(context),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          100),
                                                 ),
-                                                minFontSize: 14
-                                                    .t(context)
-                                                    .toInt()
-                                                    .toDouble(),
-                                                // height: 30.h(context),
-                                                width: 130.w(context),
-                                                // centered: true,
-                                                overflow: TextOverflow.ellipsis,
-                                              ),
+                                                SizedBox(
+                                                  width: 10.w(context),
+                                                ),
+                                                SizedBox(
+                                                  height: 30.h(context),
+                                                  child: Center(
+                                                    child: AppText(
+                                                      text: "${getKey(story, [
+                                                            "creator_details",
+                                                            "name"
+                                                          ], "${AppStrings.appName} User")}",
+                                                      style: Styles
+                                                          .bodyMediumSemibold(
+                                                        color: ColorStyle
+                                                            .greyscale500,
+                                                      ),
+                                                      minFontSize: 14
+                                                          .t(context)
+                                                          .toInt()
+                                                          .toDouble(),
+                                                      // height: 30.h(context),
+                                                      width: 130.w(context),
+                                                      // centered: true,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
                                             ),
                                           ),
                                           SizedBox(
                                             width: 24.w(context),
                                           ),
                                           Spacer(),
-                                          CommonButton(
-                                            width: 73.w(context),
-                                            height: 30.h(context),
-                                            enabled: false,
-                                            text: AppStrings.follow,
-                                            backgroundColor:
-                                                ColorStyle.primary500,
-                                            onTap: () => null,
-                                          ),
-                                          SizedBox(
-                                            width: 10.w(context),
-                                          ),
+                                          if (getKey(
+                                                  story, ["creator_id"], "") !=
+                                              getKey(userDetails, ["uid"], ""))
+                                            CommonButton(
+                                              width: 73.w(context),
+                                              height: 30.h(context),
+                                              enabled: false,
+                                              text: AppStrings.follow,
+                                              backgroundColor:
+                                                  ColorStyle.primary500,
+                                              onTap: () => null,
+                                            ),
+                                          if (getKey(
+                                                  story, ["creator_id"], "") !=
+                                              getKey(userDetails, ["uid"], ""))
+                                            SizedBox(
+                                              width: 10.w(context),
+                                            ),
                                           Icon(
                                             Icons.more_vert,
                                             color: ColorStyle.greyscale900,
@@ -145,13 +170,28 @@ class HomeView extends GetView<HomeController> {
                                                   height: 10.h(context),
                                                 ),
                                                 AppText(
-                                                  text:
-                                                      "Story description lmaooo this is a text that I am writting to test how does the card show when the text is tooo big so lets check haha hehe",
+                                                  text: getKey(
+                                                      story,
+                                                      [
+                                                        "last_sentence",
+                                                        "sentence"
+                                                      ],
+                                                      AppStrings
+                                                          .thereAreNoSentencesToDisplay),
                                                   maxLines: null,
                                                   style:
                                                       Styles.bodyMediumSemibold(
-                                                    color:
-                                                        ColorStyle.greyscale700,
+                                                    color: getKey(
+                                                                story,
+                                                                [
+                                                                  "last_sentence"
+                                                                ],
+                                                                null) ==
+                                                            null
+                                                        ? ColorStyle
+                                                            .alertsStatusError
+                                                        : ColorStyle
+                                                            .greyscale700,
                                                   ),
                                                 ),
                                               ],
@@ -167,9 +207,9 @@ class HomeView extends GetView<HomeController> {
                                                 ),
                                               ),
                                               AppText(
-                                                text: "3/${getKey(story, [
-                                                      "max_sentence"
-                                                    ], 0)}",
+                                                text: "${getKey(story, [
+                                                      "sentence_count"
+                                                    ], 0)}/${getKey(story, ["max_sentence"], 0)}",
                                                 style: Styles.h2Bold(
                                                   color: ColorStyle.primary500,
                                                 ),
@@ -198,7 +238,9 @@ class HomeView extends GetView<HomeController> {
                                                   ),
                                                 ),
                                                 AppText(
-                                                  text: "4",
+                                                  text: "${getKey(story, [
+                                                        "contributors_count"
+                                                      ], 0)}",
                                                   style: Styles.h3Bold(
                                                     color:
                                                         ColorStyle.othersPurple,
@@ -225,7 +267,9 @@ class HomeView extends GetView<HomeController> {
                                                   ),
                                                 ),
                                                 AppText(
-                                                  text: "5",
+                                                  text: "${getKey(story, [
+                                                        "live_now_count"
+                                                      ], 0)}",
                                                   style: Styles.h3Bold(
                                                     color:
                                                         ColorStyle.greyscale900,
@@ -280,7 +324,10 @@ class HomeView extends GetView<HomeController> {
                                       Row(
                                         children: [
                                           AppText(
-                                            text: "13th July 2021",
+                                            text:
+                                                "${formatDateTime(fromUtc(getKey(story, [
+                                                      "created_at"
+                                                    ], "")))}",
                                             style: Styles.bodySmallSemibold(
                                                 color: ColorStyle.greyscale500),
                                           ),
@@ -294,7 +341,9 @@ class HomeView extends GetView<HomeController> {
                                             width: 8.w(context),
                                           ),
                                           AppText(
-                                            text: "1,230",
+                                            text: "${getKey(story, [
+                                                  "likes_count"
+                                                ], "")}",
                                             style: Styles.bodySmallSemibold(
                                                 color: ColorStyle.greyscale900),
                                           ),

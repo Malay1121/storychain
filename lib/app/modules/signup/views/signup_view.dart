@@ -181,17 +181,41 @@ class SignupView extends GetView<SignupController> {
                                 GestureDetector(
                                   onTap: () =>
                                       controller.selectProfilePicture(),
-                                  child: CommonImage(
-                                    imageUrl: controller.profilePicture != null
-                                        ? controller.profilePicture!.path
-                                        : AppImages.profilePicture,
-                                    type: controller.profilePicture != null
-                                        ? "file"
-                                        : "asset",
-                                    fit: BoxFit.cover,
-                                    borderRadius: BorderRadius.circular(100),
-                                    width: 140.h(context),
-                                    height: 140.h(context),
+                                  child: Stack(
+                                    children: [
+                                      CommonImage(
+                                        imageUrl: controller.profilePicture !=
+                                                null
+                                            ? controller.profilePicture!.path
+                                            : AppImages.profilePicture,
+                                        type: controller.profilePicture != null
+                                            ? "file"
+                                            : "asset",
+                                        fit: BoxFit.cover,
+                                        borderRadius:
+                                            BorderRadius.circular(100),
+                                        width: 140.h(context),
+                                        height: 140.h(context),
+                                      ),
+                                      Positioned(
+                                        bottom: 2.5.h(context),
+                                        right: 2.5.w(context),
+                                        child: Container(
+                                          width: 25.w(context),
+                                          height: 25.w(context),
+                                          decoration: BoxDecoration(
+                                            color: ColorStyle.primary500,
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                          ),
+                                          child: Icon(
+                                            Icons.edit,
+                                            color: ColorStyle.othersWhite,
+                                            size: 25.t(context),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                                 SizedBox(

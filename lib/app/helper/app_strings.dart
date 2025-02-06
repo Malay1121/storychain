@@ -57,4 +57,6 @@ class AppStrings {
   static String follow = "Follow";
   static String following = "Following";
   static String like = "Like";
+  static String thereAreNoSentencesToDisplay =
+      "There are no sentences to display";
 }

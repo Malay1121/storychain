@@ -24,6 +24,8 @@ export 'package:flutter_svg/flutter_svg.dart';
 export 'package:flutter_tts/flutter_tts.dart';
 export 'package:cached_network_image/cached_network_image.dart';
 export 'package:image_picker/image_picker.dart';
+export 'package:intl/intl.dart' hide TextDirection;
+export 'package:humanize_duration/humanize_duration.dart';
 
 export 'app_strings.dart';
 export 'utils.dart';

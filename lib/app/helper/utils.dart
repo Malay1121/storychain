@@ -12,7 +12,7 @@ List<Map> tabs = [
   {
     "title": AppStrings.profile,
     "icon": Icons.person_outline,
-    "page": Routes.HOME,
+    "page": Routes.USER_PROFILE,
   },
 ];
 
@@ -142,6 +142,23 @@ DateTime fromUtc(String dateTime) {
 
 String toUtc(DateTime dateTime) {
   return dateTime.toUtc().toString();
+}
+
+String formatDateTime(DateTime dateTime) {
+  return DateFormat.yMMMMd().format(dateTime);
+}
+
+String formatDateTimeDifference(DateTime startDateTime, endDateTime) {
+  Duration difference = startDateTime.difference(endDateTime);
+
+  return humanizeDuration(
+    difference,
+    options: const HumanizeOptions(spacer: " ", units: [
+      Units.day,
+      Units.hour,
+      Units.minute,
+    ]),
+  );
 }
 
 Future textToSpeech(String text) async {
