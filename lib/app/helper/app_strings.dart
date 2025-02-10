@@ -57,6 +57,8 @@ class AppStrings {
   static String follow = "Follow";
   static String following = "Following";
   static String like = "Like";
+  static String posts = "Posts";
+  static String followers = "Followers";
   static String thereAreNoSentencesToDisplay =
       "There are no sentences to display";
 }

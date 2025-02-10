@@ -26,6 +26,9 @@ class UserProfileView extends GetView<UserProfileController> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
+                          SizedBox(
+                            height: 34.5.h(context),
+                          ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -60,15 +63,11 @@ class UserProfileView extends GetView<UserProfileController> {
                             imageUrl: getKey(controller.userProfile,
                                     ["profile_picture"], null) ??
                                 AppImages.profilePicture,
-                            type: getKey(controller.userProfile,
-                                        ["profile_picture"], null) !=
-                                    null
-                                ? "file"
-                                : "asset",
+                            type: "network",
                             fit: BoxFit.cover,
                             borderRadius: BorderRadius.circular(100),
-                            width: 140.h(context),
-                            height: 140.h(context),
+                            width: 120.h(context),
+                            height: 120.h(context),
                           ),
                           SizedBox(
                             height: 12.h(context),
@@ -83,6 +82,132 @@ class UserProfileView extends GetView<UserProfileController> {
                           ),
                           SizedBox(
                             height: 8.h(context),
+                          ),
+                          AppText(
+                            text: "Designer & Videographer",
+                            style: Styles.bodyMediumMedium(
+                              color: ColorStyle.greyscale900,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 20.h(context),
+                          ),
+                          Row(
+                            children: [
+                              SizedBox(
+                                width: 94.w(context),
+                                child: Column(
+                                  children: [
+                                    AppText(
+                                      text: "247",
+                                      style: Styles.h4Bold(
+                                        color: ColorStyle.greyscale900,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 4.h(context),
+                                    ),
+                                    AppText(
+                                      text: AppStrings.posts,
+                                      style: Styles.bodyMediumMedium(
+                                        color: ColorStyle.greyscale900,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                height: 53.h(context),
+                                width: 1,
+                                color: ColorStyle.greyscale200,
+                              ),
+                              SizedBox(
+                                width: 94.w(context),
+                                child: Column(
+                                  children: [
+                                    AppText(
+                                      text: "368k",
+                                      style: Styles.h4Bold(
+                                        color: ColorStyle.greyscale900,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 4.h(context),
+                                    ),
+                                    AppText(
+                                      text: AppStrings.posts,
+                                      style: Styles.bodyMediumMedium(
+                                        color: ColorStyle.greyscale900,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                height: 53.h(context),
+                                width: 1,
+                                color: ColorStyle.greyscale200,
+                              ),
+                              SizedBox(
+                                width: 94.w(context),
+                                child: Column(
+                                  children: [
+                                    AppText(
+                                      text: "374",
+                                      style: Styles.h4Bold(
+                                        color: ColorStyle.greyscale900,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 4.h(context),
+                                    ),
+                                    AppText(
+                                      text: AppStrings.posts,
+                                      style: Styles.bodyMediumMedium(
+                                        color: ColorStyle.greyscale900,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                height: 53.h(context),
+                                width: 1,
+                                color: ColorStyle.greyscale200,
+                              ),
+                              SizedBox(
+                                width: 94.w(context),
+                                child: Column(
+                                  children: [
+                                    AppText(
+                                      text: "3.7M",
+                                      style: Styles.h4Bold(
+                                        color: ColorStyle.greyscale900,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 4.h(context),
+                                    ),
+                                    AppText(
+                                      text: AppStrings.posts,
+                                      style: Styles.bodyMediumMedium(
+                                        color: ColorStyle.greyscale900,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 24.h(context),
+                          ),
+                          CommonButton(
+                            text: AppStrings.follow,
+                            onTap: () => null,
+                          ),
+                          SizedBox(
+                            height: 24.h(context),
                           ),
                         ],
                       ),

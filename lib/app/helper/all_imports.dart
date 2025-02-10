@@ -44,3 +44,4 @@ export 'package:storychain/app/widgets/common_text.dart';
 export 'package:storychain/app/widgets/common_textfield.dart';
 export 'package:storychain/app/widgets/common_bottom_bar.dart';
 export 'package:storychain/app/widgets/common_image.dart';
+export 'package:storychain/app/widgets/common_post.dart';
