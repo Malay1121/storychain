@@ -2,6 +2,7 @@ import 'package:storychain/app/helper/all_imports.dart';
 import 'package:appwrite/appwrite.dart';
 
 Client client = Client();
+RxMap firebaseUser = RxMap();
 void main() async {
   await WidgetsFlutterBinding.ensureInitialized();
   await GetStorage.init();
@@ -33,6 +34,7 @@ void main() async {
       ),
     );
   };
+
   runApp(
     GetMaterialApp(
       title: "Application",

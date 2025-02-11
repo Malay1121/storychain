@@ -21,6 +21,11 @@ class CommonController extends AnonCommonController {
   @override
   void onInit() {
     super.onInit();
+    firebaseUser.listen(
+      (p0) {
+        update();
+      },
+    );
   }
 
   @override

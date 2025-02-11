@@ -95,7 +95,7 @@ class _CommonPostState extends State<CommonPost> {
                   enabled: false,
                   text: AppStrings.follow,
                   backgroundColor: ColorStyle.primary500,
-                  onTap: () => null,
+                  onTap: () {},
                 ),
               if (widget.profileModel.uid != getKey(userDetails, ["uid"], ""))
                 SizedBox(

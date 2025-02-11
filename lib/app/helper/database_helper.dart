@@ -120,15 +120,35 @@ class DatabaseHelper {
     }
   }
 
-  static Future<List?> getStories({DocumentSnapshot? lastDoc}) async {
+  static Future<List?> getStories(
+      {DocumentSnapshot? lastDoc, String? uid, List? storySnapshots}) async {
     try {
-      dynamic userSnapshot = FirebaseFirestore.instance.collection("story");
-      if (lastDoc != null) {
-        userSnapshot = userSnapshot.startAfterDocument(lastDoc);
+      List snapshots = [];
+      dynamic userSnapshot;
+      if (storySnapshots == null) {
+        FirebaseFirestore.instance.collection("story");
+
+        if (uid != null) {
+          userSnapshot = userSnapshot.where("creator", isEqualTo: uid);
+        }
+        if (lastDoc != null) {
+          userSnapshot = userSnapshot.startAfterDocument(lastDoc);
+        }
+
+        userSnapshot = await userSnapshot.limit(10).get();
+        snapshots = userSnapshot.docs;
+      } else {
+        for (var story in storySnapshots) {
+          DocumentSnapshot localSnapshot = await FirebaseFirestore.instance
+              .collection("story")
+              .doc(story["story_id"])
+              .get();
+          snapshots.add(localSnapshot);
+        }
       }
-      userSnapshot = await userSnapshot.limit(10).get();
+
       List stories = [];
-      for (var element in (userSnapshot as QuerySnapshot).docs) {
+      for (var element in snapshots) {
         var data = element.data() as Map? ?? {};
         DocumentSnapshot userDetailSnapshot = await FirebaseFirestore.instance
             .collection("users")
@@ -154,9 +174,8 @@ class DatabaseHelper {
             .get();
         AggregateQuerySnapshot contributorsCount = await FirebaseFirestore
             .instance
-            .collection("story")
-            .doc(element.id)
             .collection("contributors")
+            .where("story_id", isEqualTo: element.id)
             .count()
             .get();
         QuerySnapshot lastSentence = await FirebaseFirestore.instance
@@ -173,8 +192,6 @@ class DatabaseHelper {
             .count()
             .get();
 
-        print(element.data());
-
         data.addEntries({
           "doc": element,
           "creator_details": userDetailSnapshot.data() ?? {},
@@ -187,7 +204,7 @@ class DatabaseHelper {
               : null,
           "sentence_count": sentenceCount.count,
         }.entries);
-        print(data);
+        print("storyyyyy: ${data}");
         stories.add(data);
       }
 
@@ -196,5 +213,22 @@ class DatabaseHelper {
       showFirebaseError(error.message);
     }
     return null;
+  }
+
+  static Future getContributedStories({required String uid}) async {
+    try {
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+          .collection("contributors")
+          .where("user_id", isEqualTo: uid)
+          .get();
+      List stories = [];
+      for (QueryDocumentSnapshot query in querySnapshot.docs) {
+        stories.add({"story_id": (query.data() as Map)["story_id"]});
+      }
+
+      return await getStories(storySnapshots: stories);
+    } on FirebaseException catch (error) {
+      showFirebaseError(error.message);
+    }
   }
 }

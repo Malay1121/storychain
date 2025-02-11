@@ -14,6 +14,7 @@ class UserProfileView extends GetView<UserProfileController> {
       builder: (controller) {
         return SafeArea(
           child: Scaffold(
+            backgroundColor: ColorStyle.othersWhite,
             body: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -209,6 +210,41 @@ class UserProfileView extends GetView<UserProfileController> {
                           SizedBox(
                             height: 24.h(context),
                           ),
+                          for (var contributedStory
+                              in controller.contributedStories)
+                            CommonPost(
+                              title: getKey(contributedStory, ["title"], ""),
+                              contributorsCount: getKey(
+                                  contributedStory, ["contributors_count"], 0),
+                              liveNowCount: getKey(
+                                  contributedStory, ["live_now_count"], 0),
+                              liveLimitCount:
+                                  getKey(contributedStory, ["max_live"], 0),
+                              likesCount:
+                                  getKey(contributedStory, ["likes_count"], 0),
+                              commentsCount: getKey(
+                                  contributedStory, ["comment_count"], 0),
+                              maxSentences:
+                                  getKey(contributedStory, ["max_sentence"], 0),
+                              profileModel: ProfileModel(
+                                username: getKey(contributedStory,
+                                    ["creator_details", "username"], ""),
+                                uid: getKey(contributedStory,
+                                    ["creator_details", "uid"], ""),
+                                email: getKey(contributedStory,
+                                    ["creator_details", "email"], ""),
+                                name: getKey(contributedStory,
+                                    ["creator_details", "name"], ""),
+                                profilePicture: getKey(contributedStory,
+                                    ["creator_details", "profile_picture"], ""),
+                              ),
+                              sentenceCount: getKey(
+                                  contributedStory, ["sentence_count"], 0),
+                              createdAt: getKey(
+                                  contributedStory,
+                                  ["created_at"],
+                                  "2024-09-12 18:04:23.004584Z"),
+                            ),
                         ],
                       ),
                     ),

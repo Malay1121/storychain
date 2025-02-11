@@ -3,6 +3,8 @@ import 'package:storychain/app/helper/all_imports.dart';
 
 class UserProfileController extends CommonController {
   Map userProfile = {};
+  List contributedStories = [];
+  List stories = [];
 
   @override
   void onInit() {
@@ -15,6 +17,8 @@ class UserProfileController extends CommonController {
       } else {
         Get.back();
       }
+    } else {
+      Get.back();
     }
   }
 
@@ -28,10 +32,30 @@ class UserProfileController extends CommonController {
     super.onClose();
   }
 
+  void getStories({String? uid}) async {
+    await DatabaseHelper.getStories(uid: uid ?? Get.arguments["userId"])
+        .then((value) {
+      stories.addAll(value?.toList() ?? []);
+      update();
+    });
+  }
+
+  void getContributedStories({String? uid}) async {
+    await DatabaseHelper.getContributedStories(
+            uid: uid ?? Get.arguments["userId"])
+        .then((value) {
+      contributedStories.addAll(value?.toList() ?? []);
+      update();
+    });
+  }
+
   void getUserProfile() async {
     await DatabaseHelper.getUser(userId: Get.arguments["userId"]).then((value) {
       userProfile = value;
       update();
     });
+    getContributedStories(
+      uid: getKey(userProfile, ["uid"], ""),
+    );
   }
 }
