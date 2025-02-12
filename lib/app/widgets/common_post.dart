@@ -33,6 +33,21 @@ class CommonPost extends StatefulWidget {
 }
 
 class _CommonPostState extends State<CommonPost> {
+  bool liked = false;
+  void checkLike() async {
+    liked = await DatabaseHelper.storyLiked(
+        uid: getKey(userDetails, ["uid"], ""),
+        storyId: getKey(widget.story, ["id"], ""));
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    checkLike();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -271,10 +286,26 @@ class _CommonPostState extends State<CommonPost> {
                 style: Styles.bodySmallSemibold(color: ColorStyle.greyscale500),
               ),
               Spacer(),
-              Icon(
-                Icons.favorite_border,
-                size: 24.h(context),
-                color: ColorStyle.greyscale900,
+              GestureDetector(
+                onTap: () async {
+                  if (await DatabaseHelper.storyLiked(
+                      uid: getKey(userDetails, ["uid"], ""),
+                      storyId: getKey(widget.story, ["id"], ""))) {
+                    widget.likesCount--;
+                  } else {
+                    widget.likesCount++;
+                  }
+                  setState(() {});
+                  await DatabaseHelper.likeStory(
+                      uid: getKey(userDetails, ["uid"], ""),
+                      storyId: getKey(widget.story, ["id"], ""));
+                  checkLike();
+                },
+                child: Icon(
+                  liked ? Icons.favorite : Icons.favorite_border,
+                  size: 24.h(context),
+                  color: liked ? ColorStyle.othersRed : ColorStyle.greyscale900,
+                ),
               ),
               SizedBox(
                 width: 8.w(context),

@@ -161,9 +161,8 @@ class DatabaseHelper {
             .count()
             .get();
         AggregateQuerySnapshot likesCount = await FirebaseFirestore.instance
-            .collection("story")
-            .doc(element.id)
             .collection("likes")
+            .where("story_id", isEqualTo: element.id)
             .count()
             .get();
         AggregateQuerySnapshot liveNowCount = await FirebaseFirestore.instance
@@ -238,6 +237,7 @@ class DatabaseHelper {
     required String uid,
   }) async {
     try {
+      EasyLoading.show();
       await FirebaseFirestore.instance.collection("sentences").add({
         "sentence": sentence,
         "story_id": storyId,
@@ -253,8 +253,54 @@ class DatabaseHelper {
           });
         },
       );
+      EasyLoading.dismiss();
     } on FirebaseException catch (error) {
       showFirebaseError(error.message);
+      EasyLoading.dismiss();
+    }
+  }
+
+  static Future likeStory(
+      {required String storyId, required String uid}) async {
+    try {
+      EasyLoading.show();
+      if (await storyLiked(storyId: storyId, uid: uid)) {
+        await FirebaseFirestore.instance
+            .collection("likes")
+            .where("user_id", isEqualTo: uid)
+            .where("story_id", isEqualTo: storyId)
+            .get()
+            .then((value) => FirebaseFirestore.instance
+                .collection("likes")
+                .doc(value.docs.first.id)
+                .delete());
+      } else {
+        await FirebaseFirestore.instance.collection("likes").add({
+          "user_id": uid,
+          "story_id": storyId,
+          "created_at": toUtc(DateTime.now()),
+        });
+      }
+      EasyLoading.dismiss();
+      return;
+    } on FirebaseException catch (error) {
+      showFirebaseError(error.message);
+    }
+  }
+
+  static Future<bool> storyLiked(
+      {required String storyId, required String uid}) async {
+    try {
+      bool liked = await FirebaseFirestore.instance
+          .collection("likes")
+          .where("user_id", isEqualTo: uid)
+          .where("story_id", isEqualTo: storyId)
+          .get()
+          .then((value) => value.docs.isNotEmpty);
+      return liked;
+    } on FirebaseException catch (error) {
+      showFirebaseError(error.message);
+      return false;
     }
   }
 }

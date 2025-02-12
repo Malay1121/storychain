@@ -79,8 +79,8 @@ class ContributeView extends GetView<ContributeController> {
                                         color: ColorStyle.greyscale900),
                                   ),
                                   Icon(
-                                    Icons.arrow_back_ios,
-                                    color: Colors.transparent,
+                                    Icons.chat_bubble_outline,
+                                    color: ColorStyle.primary500,
                                     size: 28.t(context),
                                   ),
                                 ],
