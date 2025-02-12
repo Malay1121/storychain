@@ -61,4 +61,17 @@ class AppStrings {
   static String followers = "Followers";
   static String thereAreNoSentencesToDisplay =
       "There are no sentences to display";
+
+  static String storyTitle = "Story Title";
+  static String storyDescription = "Story Description";
+  static String storySentence = "Story Sentence";
+  static String author = "Author";
+  static String writeSentence = "Write Sentence";
+  static String send = "Send";
+  static String pleaseWriteASentence = "Please Write A Sentence";
+  static String youCannotWriteTwoMessagesBackToBack =
+      "You cannot write two messages back to back";
+  static String sorryButThisStoryIsComplete =
+      "Sorry, but this story is complete";
+  static String sentences = "Sentences";
 }

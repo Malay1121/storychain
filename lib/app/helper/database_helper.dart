@@ -126,7 +126,7 @@ class DatabaseHelper {
       List snapshots = [];
       dynamic userSnapshot;
       if (storySnapshots == null) {
-        FirebaseFirestore.instance.collection("story");
+        userSnapshot = FirebaseFirestore.instance.collection("story");
 
         if (uid != null) {
           userSnapshot = userSnapshot.where("creator", isEqualTo: uid);
@@ -227,6 +227,32 @@ class DatabaseHelper {
       }
 
       return await getStories(storySnapshots: stories);
+    } on FirebaseException catch (error) {
+      showFirebaseError(error.message);
+    }
+  }
+
+  static Future sendSentence({
+    required String sentence,
+    required String storyId,
+    required String uid,
+  }) async {
+    try {
+      await FirebaseFirestore.instance.collection("sentences").add({
+        "sentence": sentence,
+        "story_id": storyId,
+        "contributor_id": uid,
+        "created_at": toUtc(DateTime.now()),
+      }).then(
+        (value) async {
+          await FirebaseFirestore.instance
+              .collection("sentences")
+              .doc(value.id)
+              .update({
+            "id": value.id,
+          });
+        },
+      );
     } on FirebaseException catch (error) {
       showFirebaseError(error.message);
     }

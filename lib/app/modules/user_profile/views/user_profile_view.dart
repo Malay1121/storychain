@@ -213,6 +213,7 @@ class UserProfileView extends GetView<UserProfileController> {
                           for (var contributedStory
                               in controller.contributedStories)
                             CommonPost(
+                              story: contributedStory,
                               title: getKey(contributedStory, ["title"], ""),
                               contributorsCount: getKey(
                                   contributedStory, ["contributors_count"], 0),

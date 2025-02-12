@@ -10,6 +10,7 @@ class CommonTextField extends StatefulWidget {
       this.height = 60,
       this.width = 380,
       this.prefixIcon,
+      this.suffixIcon,
       this.controller,
       this.keyboardType,
       this.obscureText = false,
@@ -24,6 +25,7 @@ class CommonTextField extends StatefulWidget {
   double? width;
   double? height;
   Widget? prefixIcon;
+  Widget? suffixIcon;
   TextEditingController? controller;
   bool obscureText;
   TextInputType? keyboardType;
@@ -97,14 +99,15 @@ class _CommonTextFieldState extends State<CommonTextField> {
           fillColor: ColorStyle.greyscale50,
           filled: true,
           hintText: widget.hintText,
-          suffixIcon: GestureDetector(
-            onTap: () => speak(),
-            child: Icon(
-              widget.listening ? Icons.stop : Icons.mic,
-              color: ColorStyle.primary500,
-              size: 14.t(context),
-            ),
-          ),
+          suffixIcon: widget.suffixIcon ??
+              GestureDetector(
+                onTap: () => speak(),
+                child: Icon(
+                  widget.listening ? Icons.stop : Icons.mic,
+                  color: ColorStyle.primary500,
+                  size: 14.t(context),
+                ),
+              ),
           hintStyle: Styles.bodyMediumRegular(
             color: ColorStyle.greyscale500,
           ),

@@ -2,6 +2,7 @@ import 'package:storychain/app/helper/all_imports.dart';
 
 class CommonPost extends StatefulWidget {
   CommonPost({
+    required this.story,
     required this.title,
     this.lastSentence,
     required this.contributorsCount,
@@ -14,6 +15,7 @@ class CommonPost extends StatefulWidget {
     required this.sentenceCount,
     required this.createdAt,
   });
+  Map story;
   String title;
   Map? lastSentence;
   int contributorsCount;
@@ -155,7 +157,7 @@ class _CommonPostState extends State<CommonPost> {
               Column(
                 children: [
                   AppText(
-                    text: "Sentences",
+                    text: AppStrings.sentences,
                     style: Styles.bodyMediumRegular(
                       color: ColorStyle.greyscale900,
                     ),
@@ -250,7 +252,12 @@ class _CommonPostState extends State<CommonPost> {
           ),
           CommonButton(
             text: AppStrings.contribute,
-            onTap: () => null,
+            onTap: () => Get.toNamed(
+              Routes.CONTRIBUTE,
+              arguments: {
+                "story_id": getKey(widget.story, ["id"], null),
+              },
+            ),
             width: 332.w(context),
             height: 58.h(context),
           ),

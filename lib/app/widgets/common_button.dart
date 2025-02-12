@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:storychain/app/helper/all_imports.dart';
 
 class CommonButton extends StatefulWidget {
@@ -9,6 +10,7 @@ class CommonButton extends StatefulWidget {
       this.width,
       this.backgroundColor,
       this.textColor,
+      this.borderRadius,
       this.border,
       this.enabled = true});
   String text;
@@ -18,6 +20,7 @@ class CommonButton extends StatefulWidget {
   Color? backgroundColor;
   Color? textColor;
   Border? border;
+  BorderRadius? borderRadius;
   bool enabled;
   @override
   State<CommonButton> createState() => _CommonButtonState();
@@ -33,7 +36,7 @@ class _CommonButtonState extends State<CommonButton> {
         width: widget.width ?? 380.w(context),
         decoration: BoxDecoration(
             color: widget.backgroundColor ?? ColorStyle.primary500,
-            borderRadius: BorderRadius.circular(100),
+            borderRadius: widget.borderRadius ?? BorderRadius.circular(100),
             border: widget.border,
             boxShadow: widget.enabled ? Shadows.buttonShadow1 : null),
         child: Center(

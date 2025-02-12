@@ -34,6 +34,7 @@ class HomeView extends GetView<HomeController> {
                                 ),
                                 for (var story in controller.stories)
                                   CommonPost(
+                                    story: story,
                                     title: getKey(story, ["title"], ""),
                                     lastSentence: getKey(
                                         story,
