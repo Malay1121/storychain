@@ -123,6 +123,7 @@ class DatabaseHelper {
   static Future<List?> getStories(
       {DocumentSnapshot? lastDoc, String? uid, List? storySnapshots}) async {
     try {
+      EasyLoading.show();
       List snapshots = [];
       dynamic userSnapshot;
       if (storySnapshots == null) {
@@ -178,16 +179,14 @@ class DatabaseHelper {
             .count()
             .get();
         QuerySnapshot lastSentence = await FirebaseFirestore.instance
-            .collection("story")
-            .doc(element.id)
             .collection("sentences")
+            .where("story_id", isEqualTo: element.id)
             .orderBy("created_at", descending: true)
             .limit(1)
             .get();
         AggregateQuerySnapshot sentenceCount = await FirebaseFirestore.instance
-            .collection("story")
-            .doc(element.id)
             .collection("sentences")
+            .where("story_id", isEqualTo: element.id)
             .count()
             .get();
 
@@ -206,10 +205,12 @@ class DatabaseHelper {
         print("storyyyyy: ${data}");
         stories.add(data);
       }
+      EasyLoading.dismiss();
 
       return stories;
     } on FirebaseException catch (error) {
       showFirebaseError(error.message);
+      EasyLoading.dismiss();
     }
     return null;
   }
@@ -242,6 +243,38 @@ class DatabaseHelper {
         "sentence": sentence,
         "story_id": storyId,
         "contributor_id": uid,
+        "created_at": toUtc(DateTime.now()),
+      }).then(
+        (value) async {
+          await FirebaseFirestore.instance
+              .collection("sentences")
+              .doc(value.id)
+              .update({
+            "id": value.id,
+          });
+        },
+      );
+      EasyLoading.dismiss();
+    } on FirebaseException catch (error) {
+      showFirebaseError(error.message);
+      EasyLoading.dismiss();
+    }
+  }
+
+  static Future sendChat({
+    required String message,
+    required String storyId,
+    required String uid,
+  }) async {
+    try {
+      EasyLoading.show();
+      await FirebaseFirestore.instance
+          .collection("story")
+          .doc(storyId)
+          .collection("chat")
+          .add({
+        "message": message,
+        "sender": uid,
         "created_at": toUtc(DateTime.now()),
       }).then(
         (value) async {
@@ -301,6 +334,55 @@ class DatabaseHelper {
     } on FirebaseException catch (error) {
       showFirebaseError(error.message);
       return false;
+    }
+  }
+
+  static Future addContributor(
+      {required String storyId, required String uid}) async {
+    try {
+      EasyLoading.show();
+      await FirebaseFirestore.instance.collection("contributors").add({
+        "user_id": uid,
+        "story_id": storyId,
+        "created_at": toUtc(DateTime.now()),
+      });
+      EasyLoading.dismiss();
+    } on FirebaseException catch (error) {
+      showFirebaseError(error.message);
+      EasyLoading.dismiss();
+    }
+  }
+
+  static Future addStory({
+    required String starterSentence,
+    required int maxSentences,
+    required int maxLive,
+    required String uid,
+  }) async {
+    try {
+      EasyLoading.show();
+      DocumentReference storyRef =
+          await FirebaseFirestore.instance.collection("story").add({
+        "creator": uid,
+        "created_at": toUtc(DateTime.now()),
+        "max_sentence": maxSentences,
+        "title": starterSentence,
+        "max_live": maxLive,
+      });
+
+      await FirebaseFirestore.instance
+          .collection("story")
+          .doc(storyRef.id)
+          .update({"id": storyRef.id});
+      await sendSentence(
+          sentence: starterSentence, storyId: storyRef.id, uid: uid);
+      await addContributor(storyId: storyRef.id, uid: uid);
+
+      EasyLoading.dismiss();
+      return storyRef.id;
+    } on FirebaseException catch (error) {
+      showFirebaseError(error.message);
+      EasyLoading.dismiss();
     }
   }
 }

@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 
+import '../modules/add_story/bindings/add_story_binding.dart';
+import '../modules/add_story/views/add_story_view.dart';
 import '../modules/contribute/bindings/contribute_binding.dart';
 import '../modules/contribute/views/contribute_view.dart';
 import '../modules/email_verification/bindings/email_verification_binding.dart';
@@ -57,6 +59,11 @@ class AppPages {
       name: _Paths.USER_PROFILE,
       page: () => const UserProfileView(),
       binding: UserProfileBinding(),
+    ),
+    GetPage(
+      name: _Paths.ADD_STORY,
+      page: () => const AddStoryView(),
+      binding: AddStoryBinding(),
     ),
   ];
 }

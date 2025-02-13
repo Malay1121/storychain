@@ -56,6 +56,7 @@ class _CommonPostState extends State<CommonPost> {
         vertical: 24.h(context),
         horizontal: 24.h(context),
       ),
+      margin: EdgeInsets.only(bottom: 24.h(context)),
       decoration: BoxDecoration(
         color: ColorStyle.greyscale50,
         borderRadius: BorderRadius.circular(12),

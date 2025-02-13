@@ -21,35 +21,6 @@ class ContributeView extends GetView<ContributeController> {
                     SizedBox(
                       height: 33.5.h(context),
                     ),
-                    Column(
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            color: ColorStyle.othersWhite,
-                            borderRadius: BorderRadius.circular(10),
-                            boxShadow: [
-                              BoxShadow(
-                                color: ColorStyle.othersBlack.withOpacity(0.1),
-                                blurRadius: 10,
-                                offset: Offset(0, 5),
-                              ),
-                            ],
-                          ),
-                          child: Column(
-                            children: [
-                              Container(
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: 24.w(context),
-                                ),
-                                child: Row(
-                                  children: [],
-                                ),
-                              ),
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
                     StreamBuilder(
                       stream: controller.story.stream,
                       builder: (context, snapshot) {
@@ -78,10 +49,13 @@ class ContributeView extends GetView<ContributeController> {
                                     style: Styles.h4Bold(
                                         color: ColorStyle.greyscale900),
                                   ),
-                                  Icon(
-                                    Icons.chat_bubble_outline,
-                                    color: ColorStyle.primary500,
-                                    size: 28.t(context),
+                                  GestureDetector(
+                                    onTap: () => controller.showChat(),
+                                    child: Icon(
+                                      Icons.chat_bubble_outline,
+                                      color: ColorStyle.primary500,
+                                      size: 28.t(context),
+                                    ),
                                   ),
                                 ],
                               ),
@@ -194,7 +168,7 @@ class ContributeView extends GetView<ContributeController> {
                                                   "max_sentence"
                                                 ], 0)}",
                                             style: Styles.h3Bold(
-                                              color: ColorStyle.secondary500,
+                                              color: ColorStyle.primary500,
                                             ),
                                           ),
                                         ),
@@ -216,7 +190,7 @@ class ContributeView extends GetView<ContributeController> {
                                 ),
                               ),
                               SizedBox(
-                                height: 24.h(context),
+                                height: 12.h(context),
                               ),
                               SingleChildScrollView(
                                 child: Padding(

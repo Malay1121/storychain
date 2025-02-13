@@ -15,11 +15,13 @@ class SplashView extends GetView<SplashController> {
           return Scaffold(
             backgroundColor: ColorStyle.othersWhite,
             body: Center(
-              child: Image.asset(
-                AppImages.logo,
+              child: CommonImage(
+                imageUrl: AppImages.logo,
                 fit: BoxFit.fitWidth,
+                type: "asset",
                 width: 150.w(context),
-                height: 150.h(context),
+                height: 150.w(context),
+                borderRadius: BorderRadius.circular(100),
               ),
             ),
           );

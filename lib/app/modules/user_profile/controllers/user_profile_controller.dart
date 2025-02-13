@@ -9,6 +9,11 @@ class UserProfileController extends CommonController {
   @override
   void onInit() {
     super.onInit();
+  }
+
+  @override
+  void onReady() {
+    super.onReady();
     if (Get.arguments != null) {
       if (Get.arguments["userProfile"] != null) {
         userProfile = Get.arguments["userProfile"];
@@ -20,11 +25,6 @@ class UserProfileController extends CommonController {
     } else {
       Get.back();
     }
-  }
-
-  @override
-  void onReady() {
-    super.onReady();
   }
 
   @override

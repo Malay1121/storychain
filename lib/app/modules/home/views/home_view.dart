@@ -32,6 +32,32 @@ class HomeView extends GetView<HomeController> {
                                 SizedBox(
                                   height: 24.h(context),
                                 ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    CommonImage(
+                                      imageUrl: AppImages.logo,
+                                      fit: BoxFit.cover,
+                                      height: 50.h(context),
+                                      width: 50.h(context),
+                                      borderRadius: BorderRadius.circular(100),
+                                      type: "asset",
+                                    ),
+                                    SizedBox(
+                                      width: 10.w(context),
+                                    ),
+                                    AppText(
+                                      text: AppStrings.appName,
+                                      height: 50.h(context),
+                                      style: Styles.h2Bold(
+                                        color: ColorStyle.primary500,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 24.h(context),
+                                ),
                                 for (var story in controller.stories)
                                   CommonPost(
                                     story: story,

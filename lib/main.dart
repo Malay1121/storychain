@@ -39,6 +39,7 @@ void main() async {
     GetMaterialApp(
       title: "Application",
       builder: EasyLoading.init(),
+      debugShowCheckedModeBanner: false,
       initialRoute: AppPages.INITIAL,
       getPages: AppPages.routes,
     ),

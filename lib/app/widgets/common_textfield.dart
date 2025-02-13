@@ -19,7 +19,8 @@ class CommonTextField extends StatefulWidget {
       this.prefixIconConstraints,
       this.onChanged,
       this.onSubmitted,
-      this.counterText});
+      this.counterText,
+      this.inputFormatters});
   String hintText;
   String? counterText;
   double? width;
@@ -35,6 +36,7 @@ class CommonTextField extends StatefulWidget {
   Function(String)? onChanged;
   Function(String)? onSubmitted;
   bool listening = false;
+  List<TextInputFormatter>? inputFormatters;
 
   @override
   State<CommonTextField> createState() => _CommonTextFieldState();
@@ -92,6 +94,7 @@ class _CommonTextFieldState extends State<CommonTextField> {
           color: ColorStyle.greyscale900,
         ),
         onSubmitted: widget.onSubmitted,
+        inputFormatters: widget.inputFormatters,
         textInputAction: widget.textInputAction,
         decoration: InputDecoration(
           counterText: widget.counterText,

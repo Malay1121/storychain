@@ -208,7 +208,7 @@ class UserProfileView extends GetView<UserProfileController> {
                             onTap: () => null,
                           ),
                           SizedBox(
-                            height: 24.h(context),
+                            height: 32.h(context),
                           ),
                           for (var contributedStory
                               in controller.contributedStories)
@@ -217,6 +217,8 @@ class UserProfileView extends GetView<UserProfileController> {
                               title: getKey(contributedStory, ["title"], ""),
                               contributorsCount: getKey(
                                   contributedStory, ["contributors_count"], 0),
+                              lastSentence: getKey(
+                                  contributedStory, ["last_sentence"], ""),
                               liveNowCount: getKey(
                                   contributedStory, ["live_now_count"], 0),
                               liveLimitCount:

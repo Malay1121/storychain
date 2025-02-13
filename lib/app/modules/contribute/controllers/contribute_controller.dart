@@ -5,9 +5,10 @@ import 'package:storychain/app/helper/all_imports.dart';
 
 class ContributeController extends CommonController {
   TextEditingController sentenceController = TextEditingController();
+  TextEditingController chatController = TextEditingController();
   String storyId = "";
   RxMap<dynamic, dynamic> story =
-      {"story": {}, "contributors": {}, "sentences": {}}.obs;
+      {"story": {}, "contributors": {}, "sentences": {}, "chat": {}}.obs;
 
   @override
   void onInit() {
@@ -97,6 +98,29 @@ class ContributeController extends CommonController {
         update();
       },
     );
+    FirebaseFirestore.instance
+        .collection("story")
+        .doc(storyId)
+        .collection("chat")
+        .orderBy("created_at")
+        .snapshots()
+        .listen(
+      (event) {
+        List chats = [];
+        for (QueryDocumentSnapshot doc in event.docs) {
+          Map chatData = doc.data() as Map? ?? {};
+          chatData.addEntries({"doc": doc}.entries);
+          chats.add(chatData);
+        }
+        Map data = {"chat": chats};
+        if (story.containsKey("chat")) {
+          story["chat"] = data;
+        } else {
+          story.addEntries(({"chat": data}).entries);
+        }
+        update();
+      },
+    );
   }
 
   Map getContributor(String uid) {
@@ -134,6 +158,174 @@ class ContributeController extends CommonController {
       sentence: sentenceController.text,
       storyId: storyId,
       uid: getKey(userDetails, ["uid"], ""),
+    );
+  }
+
+  void sendChat() async {
+    if (isEmptyString(chatController.text)) {
+      showSnackbar(message: AppStrings.pleaseWriteAMessage);
+      return;
+    }
+    await DatabaseHelper.sendChat(
+      message: chatController.text,
+      storyId: storyId,
+      uid: getKey(userDetails, ["uid"], ""),
+    );
+  }
+
+  void showChat() {
+    Get.bottomSheet(
+      Container(
+        decoration: BoxDecoration(
+          color: ColorStyle.othersWhite,
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(16),
+            topRight: Radius.circular(16),
+          ),
+        ),
+        padding: EdgeInsets.symmetric(
+          horizontal: 24.w(Get.context!),
+        ),
+        height: 600.h(Get.context!),
+        child: Column(
+          children: [
+            SizedBox(
+              height: 24.h(Get.context!),
+            ),
+            AppText(
+              text: AppStrings.chat,
+              style: Styles.h4Bold(
+                color: ColorStyle.greyscale900,
+              ),
+            ),
+            SizedBox(
+              height: 24.h(Get.context!),
+            ),
+            Expanded(
+              child: StreamBuilder(
+                  initialData: story,
+                  stream: story.stream,
+                  builder: (context, snapshot) {
+                    Map localStory = snapshot.data ?? {};
+                    return SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          if (getKey(localStory, ["chat", "chat"], []).isEmpty)
+                            AppText(
+                              text: AppStrings.thereAreNoChatsToDisplay,
+                              style: Styles.bodyMediumRegular(
+                                  color: ColorStyle.greyscale500),
+                            ),
+                          for (Map chat
+                              in getKey(localStory, ["chat", "chat"], []))
+                            Padding(
+                              padding: EdgeInsets.only(
+                                bottom: 12.h(context),
+                              ),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                mainAxisAlignment:
+                                    getKey(chat, ["sender"], "") ==
+                                            getKey(userDetails, ["uid"], "")
+                                        ? MainAxisAlignment.end
+                                        : MainAxisAlignment.start,
+                                children: [
+                                  if (chat["sender"] !=
+                                      getKey(userDetails, ["uid"], ""))
+                                    CommonImage(
+                                      imageUrl: getKey(
+                                          getContributor(
+                                              getKey(chat, ["sender"], "")),
+                                          ["profile_picture"],
+                                          ""),
+                                      fit: BoxFit.cover,
+                                      borderRadius: BorderRadius.circular(100),
+                                      height: 30.h(context),
+                                      width: 30.h(context),
+                                    ),
+                                  SizedBox(
+                                    width: 10.w(context),
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 20.w(context),
+                                      vertical: 12.h(context),
+                                    ),
+                                    constraints: BoxConstraints(
+                                      maxWidth: 300.w(context),
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: ColorStyle.greyscale100,
+                                      borderRadius: BorderRadius.only(
+                                        topRight: Radius.circular(16),
+                                        bottomLeft: Radius.circular(getKey(
+                                                    chat, ["sender"], "") ==
+                                                getKey(userDetails, ["uid"], "")
+                                            ? 16
+                                            : 8),
+                                        bottomRight: Radius.circular(getKey(
+                                                    chat, ["sender"], "") ==
+                                                getKey(userDetails, ["uid"], "")
+                                            ? 8
+                                            : 16),
+                                        topLeft: Radius.circular(16),
+                                      ),
+                                    ),
+                                    child: AppText(
+                                      text: getKey(chat, ["message"], ""),
+                                      style: Styles.bodyLargeRegular(
+                                        color: ColorStyle.greyscale900,
+                                      ),
+                                      maxLines: null,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 10.w(context),
+                                  ),
+                                  if (chat["sender"] ==
+                                      getKey(userDetails, ["uid"], ""))
+                                    CommonImage(
+                                      imageUrl: getKey(
+                                          getContributor(
+                                              getKey(chat, ["sender"], "")),
+                                          ["profile_picture"],
+                                          ""),
+                                      fit: BoxFit.cover,
+                                      borderRadius: BorderRadius.circular(100),
+                                      height: 30.h(context),
+                                      width: 30.h(context),
+                                    ),
+                                ],
+                              ),
+                            ),
+                        ],
+                      ),
+                    );
+                  }),
+            ),
+            Spacer(),
+            SizedBox(
+              height: 24.h(Get.context!),
+            ),
+            CommonTextField(
+              hintText: AppStrings.writeSentence,
+              controller: chatController,
+              suffixIcon: CommonButton(
+                onTap: () => sendChat(),
+                borderRadius: BorderRadius.circular(
+                  10,
+                ),
+                text: AppStrings.send,
+                width: 80.w(Get.context!),
+                height: 30.h(Get.context!),
+              ),
+            ),
+            SizedBox(
+              height: 24.h(Get.context!),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

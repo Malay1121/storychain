@@ -61,17 +61,29 @@ class AppStrings {
   static String followers = "Followers";
   static String thereAreNoSentencesToDisplay =
       "There are no sentences to display";
+  static String thereAreNoChatsToDisplay = "There are no chats to display";
 
   static String storyTitle = "Story Title";
   static String storyDescription = "Story Description";
   static String storySentence = "Story Sentence";
   static String author = "Author";
   static String writeSentence = "Write Sentence";
+  static String writeMessage = "Write Message";
   static String send = "Send";
   static String pleaseWriteASentence = "Please Write A Sentence";
+  static String pleaseWriteAMessage = "Please Write A Message";
   static String youCannotWriteTwoMessagesBackToBack =
       "You cannot write two messages back to back";
   static String sorryButThisStoryIsComplete =
       "Sorry, but this story is complete";
   static String sentences = "Sentences";
+  static String createStory = "Create Story";
+  static String starterSentence = "Starter Sentence";
+  static String maxLive = "Max Live";
+  static String maxSentence = "Max Sentences";
+  static String chat = "Chat";
+  static String starterSentenceValidation =
+      "Please enter a valid starter sentence";
+  static String maxLiveValidation = "Please enter a valid max live";
+  static String maxSentencesValidation = "Please enter a valid max sentence";
 }

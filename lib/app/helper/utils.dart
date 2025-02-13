@@ -10,6 +10,11 @@ List<Map> tabs = [
     "page": Routes.HOME,
   },
   {
+    "title": AppStrings.createStory,
+    "icon": Icons.add,
+    "page": Routes.ADD_STORY
+  },
+  {
     "title": AppStrings.profile,
     "icon": Icons.person_outline,
     "page": Routes.USER_PROFILE,
