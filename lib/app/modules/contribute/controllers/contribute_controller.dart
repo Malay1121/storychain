@@ -171,6 +171,8 @@ class ContributeController extends CommonController {
       storyId: storyId,
       uid: getKey(userDetails, ["uid"], ""),
     );
+    chatController.text = "";
+
   }
 
   void showChat() {

@@ -44,19 +44,17 @@ dependencies:
   crypto: ^3.0.3
   flutter_svg: ^2.0.9
   flutter_tts: ^4.0.2
-  flutter_timezone: ^2.0.1
   dio: ^5.7.0
   intl: ^0.20.2
-  speech_to_text: ^6.5.1
-  firebase_auth: ^5.3.4
   cloud_firestore: ^5.5.1
   firebase_core: ^3.8.1
   firebase_analytics: ^11.3.6
   firebase_storage: ^12.3.7
   cached_network_image: ^3.4.1
   image_picker: ^1.1.2
-  appwrite: ^14.0.0
   humanize_duration: ^0.0.2
+  speech_to_text: ^7.0.0
+  firebase_auth: ^5.5.4
 
 dev_dependencies:
   flutter_test:
@@ -85,7 +83,6 @@ flutter:
     - assets/
     - assets/images/
     - assets/fonts/
-    - assets/icons/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

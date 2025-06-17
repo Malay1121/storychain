@@ -11,6 +11,10 @@ abstract class Routes {
   static const CONTRIBUTE = _Paths.CONTRIBUTE;
   static const USER_PROFILE = _Paths.USER_PROFILE;
   static const ADD_STORY = _Paths.ADD_STORY;
+  static const EDIT_PROFILE = _Paths.EDIT_PROFILE;
+  static const CHAT_LIST = _Paths.CHAT_LIST;
+  static const CHAT = _Paths.CHAT;
+  static const CHANGE_PASSWORD = _Paths.CHANGE_PASSWORD;
 }
 
 abstract class _Paths {
@@ -23,4 +27,8 @@ abstract class _Paths {
   static const CONTRIBUTE = '/contribute';
   static const USER_PROFILE = '/user-profile';
   static const ADD_STORY = '/add-story';
+  static const EDIT_PROFILE = '/edit-profile';
+  static const CHAT_LIST = '/chat-list';
+  static const CHAT = '/chat';
+  static const CHANGE_PASSWORD = '/change-password';
 }

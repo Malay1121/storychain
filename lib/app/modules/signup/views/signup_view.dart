@@ -201,8 +201,8 @@ class SignupView extends GetView<SignupController> {
                                         bottom: 2.5.h(context),
                                         right: 2.5.w(context),
                                         child: Container(
-                                          width: 25.w(context),
-                                          height: 25.w(context),
+                                          width: 35.w(context),
+                                          height: 35.w(context),
                                           decoration: BoxDecoration(
                                             color: ColorStyle.primary500,
                                             borderRadius:
@@ -211,7 +211,7 @@ class SignupView extends GetView<SignupController> {
                                           child: Icon(
                                             Icons.edit,
                                             color: ColorStyle.othersWhite,
-                                            size: 25.t(context),
+                                            size: 24.t(context),
                                           ),
                                         ),
                                       ),

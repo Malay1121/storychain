@@ -99,7 +99,7 @@ class _CommonTextFieldState extends State<CommonTextField> {
         decoration: InputDecoration(
           counterText: widget.counterText,
           // contentPadding: EdgeInsets.zero,
-          fillColor: ColorStyle.greyscale50,
+          fillColor: ColorStyle.greyscale100,
           filled: true,
           hintText: widget.hintText,
           suffixIcon: widget.suffixIcon ??

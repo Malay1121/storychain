@@ -5,10 +5,23 @@ class UserProfileController extends CommonController {
   Map userProfile = {};
   List contributedStories = [];
   List stories = [];
+  Map? lastStory;
+  ScrollController scrollController = ScrollController();
+  bool owner = false;
 
   @override
   void onInit() {
     super.onInit();
+    scrollController.addListener(() {
+      if (scrollController.position.atEdge) {
+        bool isTop = scrollController.position.pixels == 0;
+        if (isTop) {
+
+        } else {
+          getStories();
+        }
+      }
+    });
   }
 
   @override
@@ -18,6 +31,9 @@ class UserProfileController extends CommonController {
       if (Get.arguments["userProfile"] != null) {
         userProfile = Get.arguments["userProfile"];
       } else if (Get.arguments["userId"] != null) {
+        if (user?.uid == Get.arguments["userId"]) {
+          owner = true;
+        }
         getUserProfile();
       } else {
         Get.back();
@@ -33,8 +49,9 @@ class UserProfileController extends CommonController {
   }
 
   void getStories({String? uid}) async {
-    await DatabaseHelper.getStories(uid: uid ?? Get.arguments["userId"])
+    await DatabaseHelper.getStories(uid: uid ?? Get.arguments["userId"], lastDoc: getKey(lastStory ?? {}, ["doc"], null))
         .then((value) {
+          lastStory = value != null ? value.last : lastStory;
       stories.addAll(value?.toList() ?? []);
       update();
     });

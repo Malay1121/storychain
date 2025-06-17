@@ -21,12 +21,14 @@ class _CommonBottomBarState extends State<CommonBottomBar> {
           for (Map tab in tabs)
             Expanded(
               child: GestureDetector(
-                onTap: () => Get.toNamed(tab["page"],
-                    arguments: tab["title"] == AppStrings.profile
-                        ? {
-                            "userId": getKey(userDetails, ["uid"], "")
-                          }
-                        : null),
+                onTap: () => Get.offAndToNamed(
+                  tab["page"],
+                  arguments: tab["title"] == AppStrings.profile
+                      ? {
+                          "userId": getKey(userDetails, ["uid"], "")
+                        }
+                      : null,
+                ),
                 child: Container(
                   height: 48.h(context),
                   decoration: BoxDecoration(

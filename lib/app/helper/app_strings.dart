@@ -27,6 +27,7 @@ class AppStrings {
   static String createYourAccount = "Create your \nAccount";
   static String welcomeBack = "Welcome Back!";
   static String completeYourProfile = "Complete Your Profile";
+  static String editProfile = "Edit Profile";
   static String email = "Email";
   static String fullName = "Full Name";
   static String gender = "Gender";
@@ -35,6 +36,8 @@ class AppStrings {
   static String other = "Other";
   static String username = "Username";
   static String password = "Password";
+  static String oldPassword = "Old Password";
+  static String newPassword = "New Password";
   static String rememberMe = "Remember me";
   static String forgotPassword = "Forgot password?";
   static String orContinueWith = "Or continue with";
@@ -45,9 +48,12 @@ class AppStrings {
   static String signIn = "Sign In";
   static String dontHaveAnAccount = "Don't have an account?";
   static String alreadyHaveAnAccount = "Already have an account?";
+  static String save = "Save";
+  static String changePassword = "Change Password";
 
   static String home = "Home";
   static String profile = "Profile";
+  static String settings = "Settings";
   static String add = "Add";
   static String contribute = "Contribute";
   static String contributors = "Contributors";
@@ -86,4 +92,8 @@ class AppStrings {
       "Please enter a valid starter sentence";
   static String maxLiveValidation = "Please enter a valid max live";
   static String maxSentencesValidation = "Please enter a valid max sentence";
+
+  static String messages = "Messages";
+  static String recently = "Recently";
+  static String search = "Search";
 }

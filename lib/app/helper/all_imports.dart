@@ -13,8 +13,6 @@ export 'package:cloud_firestore/cloud_firestore.dart' hide Query;
 export 'package:firebase_storage/firebase_storage.dart';
 export 'package:storychain/app/helper/database_helper.dart';
 
-export 'package:appwrite/appwrite.dart';
-
 export 'package:flutter_responsive_helper/flutter_responsive_helper.dart';
 export 'package:flutter_easyloading/flutter_easyloading.dart';
 export 'package:auto_size_text/auto_size_text.dart';

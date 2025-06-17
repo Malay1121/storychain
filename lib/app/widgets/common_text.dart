@@ -127,7 +127,6 @@ class AppRichText extends StatefulWidget {
     this.group,
     this.textAlign,
     this.textDirection,
-    this.locale,
     this.softWrap,
     this.wrapWords = true,
     this.overflow,
@@ -151,7 +150,6 @@ class AppRichText extends StatefulWidget {
   AutoSizeGroup? group;
   TextAlign? textAlign;
   TextDirection? textDirection;
-  Locale? locale;
   bool? softWrap;
   bool wrapWords = true;
   TextOverflow? overflow;

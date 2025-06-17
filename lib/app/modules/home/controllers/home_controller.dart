@@ -7,11 +7,22 @@ class HomeController extends CommonController {
   Map? lastStory = null;
   List stories = [];
   bool loading = false;
+  ScrollController scrollController = ScrollController();
 
   @override
   void onInit() {
     super.onInit();
     getStories();
+    scrollController.addListener(() {
+      if (scrollController.position.atEdge) {
+        bool isTop = scrollController.position.pixels == 0;
+        if (isTop) {
+
+        } else {
+          getStories();
+        }
+      }
+    });
     userStream = FirebaseFirestore.instance
         .collection("users")
         .doc(user?.uid)
@@ -24,6 +35,7 @@ class HomeController extends CommonController {
         update();
       },
     );
+
   }
 
   @override
@@ -39,8 +51,9 @@ class HomeController extends CommonController {
   Future getStories() async {
     loading = true;
     update();
-    var response = await DatabaseHelper.getStories();
+    var response = await DatabaseHelper.getStories(lastDoc: getKey(lastStory ?? {}, ["doc"], null));
     print(response);
+    lastStory = response != null ? response.last : lastStory;
     if (response != null) {
       stories.addAll(response);
     }

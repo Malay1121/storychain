@@ -180,6 +180,7 @@ class _CommonPostState extends State<CommonPost> {
                   ),
                   AppText(
                     text: "${widget.sentenceCount}/${widget.maxSentences}",
+                    width: 80.w(context),centered: true,
                     style: Styles.h2Bold(
                       color: ColorStyle.primary500,
                     ),
@@ -195,7 +196,7 @@ class _CommonPostState extends State<CommonPost> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               SizedBox(
-                width: 110.w(context),
+                width: 109.w(context),
                 child: Column(
                   children: [
                     AppText(
@@ -219,7 +220,7 @@ class _CommonPostState extends State<CommonPost> {
                 color: ColorStyle.greyscale200,
               ),
               SizedBox(
-                width: 110.w(context),
+                width: 109.w(context),
                 child: Column(
                   children: [
                     AppText(
@@ -243,7 +244,7 @@ class _CommonPostState extends State<CommonPost> {
                 color: ColorStyle.greyscale200,
               ),
               SizedBox(
-                width: 110.w(context),
+                width: 109.w(context),
                 child: Column(
                   children: [
                     AppText(

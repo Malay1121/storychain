@@ -1,4 +1,3 @@
-import 'package:appwrite/enums.dart';
 // import 'package:appwrite/models.dart';
 import 'package:storychain/app/helper/all_imports.dart';
 
@@ -96,13 +95,26 @@ class DatabaseHelper {
   }
 
   static Future editUser(
-      {required User user, required Map<String, dynamic> data}) async {
+      {required String userId, required Map<String, dynamic> data}) async {
     try {
+      if (getKey(data, ["profile_picture"], "") is File) {
+        Reference storageRef = FirebaseStorage.instance.ref().child(
+            "profile_pictures/${userId}.${data["profile_picture"].toString().split(".").last}");
+        await storageRef.putFile(
+          data["profile_picture"],
+        );
+        String imagePath = await storageRef.getDownloadURL();
+        data["profile_picture"] = imagePath;
+      }
+
       await FirebaseFirestore.instance
           .collection("users")
-          .doc(user.uid)
+          .doc(userId)
           .update(data);
+
       editUserDetails(data);
+
+      return data;
     } on FirebaseException catch (error) {
       showFirebaseError(error.message);
     }
@@ -136,7 +148,7 @@ class DatabaseHelper {
           userSnapshot = userSnapshot.startAfterDocument(lastDoc);
         }
 
-        userSnapshot = await userSnapshot.limit(10).get();
+        userSnapshot = await userSnapshot.limit(5).get();
         snapshots = userSnapshot.docs;
       } else {
         for (var story in storySnapshots) {
@@ -384,5 +396,82 @@ class DatabaseHelper {
       showFirebaseError(error.message);
       EasyLoading.dismiss();
     }
+  }
+
+  static Future getStoryCount({required String? uid}) async {
+    dynamic ref = FirebaseFirestore.instance.collection("story");
+    if (uid != null && uid.isNotEmpty) {
+      ref = ref.where("creator", isEqualTo: uid);
+    }
+    print((await (ref.count() as AggregateQuery).get()).count);
+
+    print("await ref.count()");
+    return (await ref.count().get()).count;
+  }
+
+  static Future getFollowerCount({required String? uid}) async {
+    dynamic ref = FirebaseFirestore.instance.collection("following");
+    if (uid != null && uid.isNotEmpty) {
+      ref = ref.where("following", isEqualTo: uid);
+    }
+    return (await ref.count().get()).count;
+  }
+
+  static Future getFollowingCount({required String? uid}) async {
+    dynamic ref = FirebaseFirestore.instance.collection("following");
+    if (uid != null && uid.isNotEmpty) {
+      ref = ref.where("follower", isEqualTo: uid);
+    }
+    return (await ref.count().get()).count;
+  }
+
+  static Future getChatList(
+      {required String uid, DocumentSnapshot? lastDoc, int limit = 10}) async {
+    try {
+      dynamic querySnapshot = FirebaseFirestore.instance
+          .collection("chats")
+          .where("users", arrayContains: uid)
+          .limit(limit);
+      if (lastDoc != null) {
+        querySnapshot = querySnapshot.startAfterDocument(lastDoc);
+      }
+      querySnapshot = await querySnapshot.get();
+      List chats = [];
+      for (QueryDocumentSnapshot query in querySnapshot.docs) {
+        Map lastChat = (await getChat(chatId: query.id, limit: 1)).first;
+        Map chatData = query.data() as Map;
+        List userList = getKey(chatData, ["users"], []);
+        String userB = userList.firstWhere(
+          (element) => element != uid,
+        );
+        Map userBDetails = await getUser(userId: userB);
+        Map chat = {"doc": query, "userB": userBDetails, "last_chat": lastChat};
+        chats.add(chat);
+      }
+      return chats;
+    } on FirebaseException catch (error) {
+      showFirebaseError(error.message);
+    }
+  }
+
+  static Future<List> getChat(
+      {required String chatId,
+      DocumentSnapshot? lastDoc,
+      int limit = 15}) async {
+    dynamic querySnapshot = FirebaseFirestore.instance
+        .collection("chats")
+        .doc(chatId)
+        .collection("chats")
+        .limit(limit);
+    if (lastDoc != null) {
+      querySnapshot = querySnapshot.startAfterDocument(lastDoc);
+    }
+    querySnapshot = await querySnapshot.get();
+    List chats = [];
+    for (QueryDocumentSnapshot query in querySnapshot.docs) {
+      Map chat = {"data": query.data() as Map, "doc": query};
+      chats.add(chat);
+    }
+    return chats;
   }
 }

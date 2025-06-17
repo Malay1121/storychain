@@ -10,6 +10,11 @@ List<Map> tabs = [
     "page": Routes.HOME,
   },
   {
+    "title": AppStrings.chat,
+    "icon": Icons.chat_bubble_outline,
+    "page": Routes.CHAT_LIST,
+  },
+  {
     "title": AppStrings.createStory,
     "icon": Icons.add,
     "page": Routes.ADD_STORY
@@ -17,6 +22,11 @@ List<Map> tabs = [
   {
     "title": AppStrings.profile,
     "icon": Icons.person_outline,
+    "page": Routes.USER_PROFILE,
+  },
+  {
+    "title": AppStrings.settings,
+    "icon": Icons.settings_outlined,
     "page": Routes.USER_PROFILE,
   },
 ];
@@ -164,6 +174,10 @@ String formatDateTimeDifference(DateTime startDateTime, endDateTime) {
       Units.minute,
     ]),
   );
+}
+
+String formatNumber(int number) {
+  return NumberFormat.compact().format(number);
 }
 
 Future textToSpeech(String text) async {

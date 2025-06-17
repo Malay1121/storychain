@@ -99,12 +99,21 @@ class UserProfileView extends GetView<UserProfileController> {
                                 width: 94.w(context),
                                 child: Column(
                                   children: [
-                                    AppText(
-                                      text: "247",
-                                      style: Styles.h4Bold(
-                                        color: ColorStyle.greyscale900,
-                                      ),
-                                    ),
+                                    FutureBuilder(
+                                        future: DatabaseHelper.getStoryCount(
+                                            uid: controller.user?.uid),
+                                        builder: (context, snapshot) {
+                                          int posts = 0;
+                                          if (snapshot.hasData) {
+                                            posts = snapshot.data;
+                                          }
+                                          return AppText(
+                                            text: formatNumber(posts),
+                                            style: Styles.h4Bold(
+                                              color: ColorStyle.greyscale900,
+                                            ),
+                                          );
+                                        }),
                                     SizedBox(
                                       height: 4.h(context),
                                     ),
@@ -126,17 +135,26 @@ class UserProfileView extends GetView<UserProfileController> {
                                 width: 94.w(context),
                                 child: Column(
                                   children: [
-                                    AppText(
-                                      text: "368k",
-                                      style: Styles.h4Bold(
-                                        color: ColorStyle.greyscale900,
-                                      ),
-                                    ),
+                                    FutureBuilder(
+                                        future: DatabaseHelper.getFollowerCount(
+                                            uid: controller.user?.uid),
+                                        builder: (context, snapshot) {
+                                          int followers = 0;
+                                          if (snapshot.hasData) {
+                                            followers = snapshot.data;
+                                          }
+                                          return AppText(
+                                            text: formatNumber(followers),
+                                            style: Styles.h4Bold(
+                                              color: ColorStyle.greyscale900,
+                                            ),
+                                          );
+                                        }),
                                     SizedBox(
                                       height: 4.h(context),
                                     ),
                                     AppText(
-                                      text: AppStrings.posts,
+                                      text: AppStrings.followers,
                                       style: Styles.bodyMediumMedium(
                                         color: ColorStyle.greyscale900,
                                       ),
@@ -153,17 +171,27 @@ class UserProfileView extends GetView<UserProfileController> {
                                 width: 94.w(context),
                                 child: Column(
                                   children: [
-                                    AppText(
-                                      text: "374",
-                                      style: Styles.h4Bold(
-                                        color: ColorStyle.greyscale900,
-                                      ),
-                                    ),
+                                    FutureBuilder(
+                                        future:
+                                            DatabaseHelper.getFollowingCount(
+                                                uid: controller.user?.uid),
+                                        builder: (context, snapshot) {
+                                          int followers = 0;
+                                          if (snapshot.hasData) {
+                                            followers = snapshot.data;
+                                          }
+                                          return AppText(
+                                            text: formatNumber(followers),
+                                            style: Styles.h4Bold(
+                                              color: ColorStyle.greyscale900,
+                                            ),
+                                          );
+                                        }),
                                     SizedBox(
                                       height: 4.h(context),
                                     ),
                                     AppText(
-                                      text: AppStrings.posts,
+                                      text: AppStrings.following,
                                       style: Styles.bodyMediumMedium(
                                         color: ColorStyle.greyscale900,
                                       ),
@@ -203,10 +231,18 @@ class UserProfileView extends GetView<UserProfileController> {
                           SizedBox(
                             height: 24.h(context),
                           ),
-                          CommonButton(
-                            text: AppStrings.follow,
-                            onTap: () => null,
-                          ),
+                          controller.owner
+                              ? CommonButton(
+                                  text: AppStrings.editProfile,
+                                  backgroundColor: Colors.transparent,
+                                  border: Border.all(
+                                    color: ColorStyle.primary500,
+                                  ),enabled: false, textColor: ColorStyle.primary500,
+                                  onTap: () => Get.toNamed(Routes.EDIT_PROFILE), )
+                              : CommonButton(
+                                  text: AppStrings.follow,
+                                  onTap: () => null,
+                                ),
                           SizedBox(
                             height: 32.h(context),
                           ),
