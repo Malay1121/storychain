@@ -291,7 +291,9 @@ class DatabaseHelper {
       }).then(
         (value) async {
           await FirebaseFirestore.instance
-              .collection("sentences")
+              .collection("story")
+              .doc(storyId)
+              .collection("chat")
               .doc(value.id)
               .update({
             "id": value.id,
@@ -473,5 +475,45 @@ class DatabaseHelper {
       chats.add(chat);
     }
     return chats;
+  }
+
+  static Future sendMessage({
+    required String message,
+    required String chatId,
+    required String uid,
+  }) async {
+    try {
+      EasyLoading.show();
+      await FirebaseFirestore.instance
+          .collection("chats")
+          .doc(chatId)
+          .collection("chats")
+          .add({
+        "message": message,
+        "senderId": uid,
+        "created_at": toUtc(DateTime.now()),
+      }).then(
+        (value) async {
+          await FirebaseFirestore.instance
+              .collection("chats")
+              .doc(chatId)
+              .collection("chats")
+              .doc(value.id)
+              .update({
+            "id": value.id,
+          });
+          await FirebaseFirestore.instance
+              .collection("chats")
+              .doc(chatId)
+              .update({
+            "updatedAt": Timestamp.fromDate(DateTime.now()),
+          });
+        },
+      );
+      EasyLoading.dismiss();
+    } on FirebaseException catch (error) {
+      showFirebaseError(error.message);
+      EasyLoading.dismiss();
+    }
   }
 }

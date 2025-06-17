@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 
 import '../../../helper/all_imports.dart';
@@ -6,6 +7,9 @@ class ChatListController extends CommonController {
   DocumentSnapshot? lastDoc = null;
   List chatList = [];
   ScrollController scrollController = ScrollController();
+  bool isLoading = false;
+  bool hasMore = true;
+
   int limit = 10;
   @override
   void onInit() {
@@ -23,6 +27,13 @@ class ChatListController extends CommonController {
     });
   }
 
+  void onChatTap(String chatId, Map chat) {
+    Get.toNamed(
+      Routes.CHAT,
+      arguments: {'chatId': chatId, 'chat': chat},
+    );
+  }
+
   @override
   void onReady() {
     super.onReady();
@@ -33,14 +44,17 @@ class ChatListController extends CommonController {
     super.onClose();
   }
 
-  void getChatList() async {
+  void getChatList({bool loadMore = false}) async {
     try {
-      dynamic query = FirebaseFirestore.instance
+      if (isLoading || (!hasMore && loadMore)) return;
+      isLoading = true;
+      Query query = FirebaseFirestore.instance
           .collection("chats")
           .where("users", arrayContains: user?.uid)
+          .orderBy("updatedAt", descending: true)
           .limit(limit);
       if (lastDoc != null) {
-        query = query.startAfterDocument(lastDoc);
+        query = query.startAfterDocument(lastDoc!);
       }
       query.snapshots().listen((querySnapshot) async {
         List chats = [];
@@ -59,7 +73,7 @@ class ChatListController extends CommonController {
           Map chat = {
             "doc": query,
             "userB": userBDetails,
-            "last_chat": lastChat
+            "last_chat": lastChat,
           };
           chats.add(chat);
         }

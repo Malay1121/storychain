@@ -55,6 +55,7 @@ dependencies:
   humanize_duration: ^0.0.2
   speech_to_text: ^7.0.0
   firebase_auth: ^5.5.4
+  firebase_pagination: ^4.1.0
 
 dev_dependencies:
   flutter_test:

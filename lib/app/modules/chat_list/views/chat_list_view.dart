@@ -65,9 +65,10 @@ class ChatListView extends GetView<ChatListController> {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     CommonImage(
-                                      imageUrl: "",
+                                      imageUrl:
+                                          "https://firebasestorage.googleapis.com/v0/b/storychain-app.firebasestorage.app/o/profile_pictures%2FdIbvqmvZ1hP5OuIMwlJVXbOmGKy2.jpg?alt=media&token=ae48221a-bfe0-42ea-af3f-c5044cd3f1b9",
                                       fit: BoxFit.cover,
-                                      width: 80.w(context),
+                                      width: 80.h(context),
                                       height: 80.h(context),
                                       borderRadius: BorderRadius.circular(100),
                                       type: "network",
@@ -78,7 +79,7 @@ class ChatListView extends GetView<ChatListController> {
                                       ),
                                     ),
                                     AppText(
-                                      text: "sdads",
+                                      text: "Gaurav Anghan",
                                       style: Styles.bodyMediumSemibold(
                                         color: ColorStyle.greyscale900,
                                       ),
@@ -101,65 +102,74 @@ class ChatListView extends GetView<ChatListController> {
                             height: 24.h(context),
                           ),
                           for (Map chat in controller.chatList)
-                            Row(
-                              children: [
-                                CommonImage(
-                                  imageUrl: getKey(
-                                      chat, ["userB", "profile_picture"], ""),
-                                  fit: BoxFit.cover,
-                                  height: 60.w(context),
-                                  width: 60.w(context),
-                                  borderRadius: BorderRadius.circular(100),
-                                  type: "network",
-                                ),
-                                SizedBox(
-                                  width: 20.w(context),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.symmetric(
-                                    vertical: 7.h(context),
+                            GestureDetector(
+                              onTap: () {
+                                controller.onChatTap(
+                                    getKey(chat["doc"].data(), ["id"], ""),
+                                    chat);
+                              },
+                              child: Row(
+                                children: [
+                                  CommonImage(
+                                    imageUrl: getKey(
+                                        chat, ["userB", "profile_picture"], ""),
+                                    fit: BoxFit.cover,
+                                    height: 60.w(context),
+                                    width: 60.w(context),
+                                    borderRadius: BorderRadius.circular(100),
+                                    type: "network",
                                   ),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    spacing: 4.h(context),
+                                  SizedBox(
+                                    width: 20.w(context),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(
+                                      vertical: 7.h(context),
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      spacing: 4.h(context),
+                                      children: [
+                                        AppText(
+                                          text: getKey(
+                                              chat, ["userB", "name"], ""),
+                                          style: Styles.h6Bold(
+                                            color: ColorStyle.greyscale900,
+                                          ),
+                                        ),
+                                        AppText(
+                                          text: getKey(chat,
+                                              ["last_chat", "message"], ""),
+                                          style: Styles.bodyMediumMedium(
+                                            color: ColorStyle.greyscale700,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Spacer(),
+                                  Column(
                                     children: [
                                       AppText(
-                                        text:
-                                            getKey(chat, ["userB", "name"], ""),
-                                        style: Styles.h6Bold(
-                                          color: ColorStyle.greyscale900,
-                                        ),
-                                      ),
-                                      AppText(
                                         text: getKey(
-                                            chat, ["last_chat", "message"], ""),
+                                                    chat,
+                                                    ["last_chat", "created_at"],
+                                                    "") !=
+                                                ""
+                                            ? formatDateTime(fromUtc(getKey(
+                                                chat,
+                                                ["last_chat", "created_at"],
+                                                "")))
+                                            : "",
                                         style: Styles.bodyMediumMedium(
                                           color: ColorStyle.greyscale700,
                                         ),
                                       ),
                                     ],
                                   ),
-                                ),
-                                Spacer(),
-                                Column(
-                                  children: [
-                                    AppText(
-                                      text: getKey(
-                                                  chat,
-                                                  ["last_chat", "created_at"],
-                                                  "") !=
-                                              ""
-                                          ? formatDateTime(fromUtc(getKey(chat,
-                                              ["last_chat", "created_at"], "")))
-                                          : "",
-                                      style: Styles.bodyMediumMedium(
-                                        color: ColorStyle.greyscale700,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                         ],
                       ),

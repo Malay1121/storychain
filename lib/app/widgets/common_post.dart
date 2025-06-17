@@ -180,7 +180,8 @@ class _CommonPostState extends State<CommonPost> {
                   ),
                   AppText(
                     text: "${widget.sentenceCount}/${widget.maxSentences}",
-                    width: 80.w(context),centered: true,
+                    width: 80.w(context),
+                    centered: true,
                     style: Styles.h2Bold(
                       color: ColorStyle.primary500,
                     ),
